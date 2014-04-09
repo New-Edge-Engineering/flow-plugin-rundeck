@@ -1,0 +1,137 @@
+{
+	"type": "node",
+	"id": "FlowProcess_Rundeck",
+	"title": "Rundeck",
+	"description": "Rundeck",
+	"view":"rundeck:rundeck.svg",
+	"icon":"rundeck:rundeck.png",
+	"groups":"",
+	"roles": ["sequence_start", "Activity", "sequence_end","all","CallActivityMorph"],
+	"propertyPackages": ["elementbase", "baseattributes", "asynchronousbase", "executionlistenersbase", "loopcharacteristics", "activity", "environmentbase", "callactivitybase"],
+	"properties":[
+		{
+			"id": "name",
+			"category": "others",
+			"title": "Name",
+			"description": "Name",
+			"optional": false,
+			"refToView": "text_name",
+			"value" : "Rundeck",
+			"type": "String",
+			"popular": true,
+			"readonly": false
+		},
+		{
+			"id": "planKey",
+			"title": "Plan Key",
+			"description": "plan Key",
+			"optional": false,
+			"popular": true,
+			"type": "Choice",
+			"value": "",
+			"items":[]
+		},
+		{
+			"id": "callactivitycalledelement",
+			"type": "String",
+			"title": "Called element",
+			"value":  "External_Tool_Connector",
+			"description": "Process reference.",
+			"popular": false
+		},
+		{
+			"id": "callactivityinparameters",
+			"type": "Complex",
+			"title": "Parameters",
+			"description": "Definition of the input parameters",
+			"popular": false,
+			"value": {
+				"items":[
+					{
+						"ioparameter_sourceexpression": "${execution.getActivity().getId()}", 
+						"ioparameter_target": "triggeredBy"
+					},
+					{
+						"ioparameter_sourceexpression": "${null == execution.getVariable('flowUniqueId') ? execution.processInstanceId : (execution.getVariable('flowUniqueId'))}", 
+						"ioparameter_target": "flowUniqueId"
+					},
+					{
+						"ioparameter_sourceexpression": "${execution.getVariable('flowParameters')}", 
+						"ioparameter_target": "flowParameters"
+					},
+					{
+						"ioparameter_sourceexpression": "PT5S", 
+						"ioparameter_target": "pollingPeriod"
+					},
+					{
+						"ioparameter_sourceexpression": "Rundeck",
+						"ioparameter_target": "displayName"
+					},
+					{
+						"ioparameter_sourceexpression": "",
+						"ioparameter_target": "planKey"
+					},
+                    {
+						"ioparameter_sourceexpression": "RUNDECK",
+						"ioparameter_target": "toolId"
+					}
+				]
+			},
+			"complexItems": [
+				{
+					"id": "ioparameter_target", 
+					"name": "Property Name", 
+					"type": "String", 
+					"value": "", 
+					"width": 200, 
+					"optional": false
+				},
+				{
+					"id": "ioparameter_sourceexpression", 
+					"name": "Value", 
+					"type": "String", 
+					"value": "", 
+					"width": 200, 
+					"optional": false
+				}
+			]
+		},
+		{
+			"id": "callactivityoutparameters",
+			"type": "Complex",
+			"title": "Outputs",
+			"description": "Definition of the output parameters",
+			"popular": false,
+			"value": {
+				"items": [
+					{
+						"ioparameter_sourceexpression": "${execution.getVariable('FlowVar')}", 
+						"ioparameter_target": "FlowVar"
+					},
+					{
+						"ioparameter_sourceexpression": "${execution.getVariable('flowParameters')}", 
+						"ioparameter_target": "flowParameters"
+					}
+				]
+			},
+			"complexItems": [
+				{
+					"id": "ioparameter_target", 
+					"name": "Property Name", 
+					"type": "String", 
+					"value": "", 
+					"width": 200, 
+					"optional": false
+				},
+				{
+					"id": "ioparameter_sourceexpression", 
+					"name": "Value", 
+					"type": "String", 
+					"value": "", 
+					"width": 200, 
+					"optional": false
+				}
+			]
+		}
+	]
+}
