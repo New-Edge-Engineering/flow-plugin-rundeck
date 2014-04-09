@@ -7,13 +7,178 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
-        <configuration>
-          <source/>
-          <target/>
-        </configuration>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+              <compilerId>groovy-eclipse-compiler</compilerId>
+              <verbose>true</verbose>
+          </configuration>
+          <dependencies>
+              <dependency>
+                  <groupId>org.codehaus.groovy</groupId>
+                  <artifactId>groovy-eclipse-compiler</artifactId>
+                  <version>2.7.0-01</version>
+              </dependency>
+          </dependencies>
+      </plugin>
+      <plugin>
+          <groupId>org.codehaus.gmaven</groupId>
+          <artifactId>gmaven-plugin</artifactId>
+          <dependencies>
+              <dependency>
+                  <groupId>org.codehaus.gmaven.runtime</groupId>
+                  <artifactId>gmaven-runtime-2.0</artifactId>
+                  <version>1.5</version>
+              </dependency>
+              <dependency>
+                  <groupId>org.codehaus.groovy</groupId>
+                  <artifactId>groovy</artifactId>
+                  <version>1.8.6</version>
+              </dependency>
+          </dependencies>
+          <configuration>
+              <debug>false</debug>
+              <verbose>true</verbose>
+              <stacktrace>true</stacktrace>
+              <defaultScriptExtension>.groovy</defaultScriptExtension>
+              <providerSelection>2.0</providerSelection>
+              <source/>
+          </configuration>
+          <executions>
+              <execution>
+                  <goals>
+                      <!--<goal>generateStubs</goal> -->
+                      <goal>compile</goal>
+                      <!--<goal>generateTestStubs</goal> -->
+                      <goal>testCompile</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
+
+      <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+              <descriptors>
+                  <descriptor>src/assembly/flow-plugin-assembly.xml</descriptor>
+              </descriptors>
+          </configuration>
+          <executions>
+              <execution>
+                  <id>make-assembly</id>
+                  <phase>package</phase>
+                  <goals>
+                      <goal>single</goal>
+                  </goals>
+              </execution>
+          </executions>
       </plugin>
     </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>
+    									org.apache.maven.plugins
+    								</groupId>
+    								<artifactId>
+    									maven-compiler-plugin
+    								</artifactId>
+    								<versionRange>[3.1,)</versionRange>
+    								<goals>
+    									<goal>testCompile</goal>
+    									<goal>compile</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>
+    									org.codehaus.gmaven
+    								</groupId>
+    								<artifactId>
+    									gmaven-plugin
+    								</artifactId>
+    								<versionRange>[1.5,)</versionRange>
+    								<goals>
+    									<goal>compile</goal>
+    									<goal>testCompile</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
   </build>
+
+  <dependencies>
+
+      <dependency>
+          <groupId>org.codehaus.groovy</groupId>
+          <artifactId>groovy-all</artifactId>
+          <version>1.8.6</version>
+      </dependency>
+
+      <dependency>
+          <groupId>net.startflowing.core</groupId>
+          <artifactId>flow</artifactId>
+          <version>0.3</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.activiti</groupId>
+          <artifactId>activiti-engine</artifactId>
+          <version>5.13</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.sun.jersey</groupId>
+          <artifactId>jersey-client</artifactId>
+          <version>1.8</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20090211</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>net.xeoh</groupId>
+          <artifactId>jspf-core</artifactId>
+          <version>1.0.0</version>
+          <scope>provided</scope>
+      </dependency>
+
+  </dependencies>
+
+
+  <repositories>
+      <repository>
+          <id>repo</id>
+          <url>file://${project.basedir}/repo</url>
+      </repository>
+      <repository>
+          <url>https://maven.alfresco.com/nexus/content/groups/public</url>
+          <id>org.activiti</id>
+      </repository>
+  </repositories>
 </project>
